@@ -97,6 +97,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), Doodler.class));
                 getActivity().finish();
                 break;
+
             case R.id.objectPlacer:
                 startActivity(new Intent(getActivity(), ObjectPlacer.class));
                 getActivity().finish();
