@@ -48,17 +48,10 @@ dependencies {
 
 
 
-sceneform.asset('sampledata/chairobj.obj',
-        'default',
-        'sampledata/chairobj.sfa',
-        'src/main/assets/chairobj')
+
 
 sceneform.asset('sampledata/coffee.obj',
         'default',
         'sampledata/coffee.sfa',
         'src/main/assets/coffee')
 
-sceneform.asset('sampledata/earth_ball.obj',
-        'default',
-        'sampledata/earth_ball.sfa',
-        'src/main/assets/earth_ball')
