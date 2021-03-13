@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@color/colorPrimary"
-            android:foregroundTint="@color/white"
             android:src="@drawable/doodler_icon"
+            android:tint="@color/white"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="mini" />
 
@@ -45,7 +45,7 @@
             android:background="@color/colorPrimary"
             android:backgroundTint="@color/colorPrimary"
             android:src="@drawable/object_placer"
-            app:backgroundTint="@color/colorPrimary"
+            android:tint="@color/white"
             app:fabSize="mini" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -54,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@color/colorPrimary"
-            android:foregroundTint="@color/white"
             android:src="@drawable/face_icon"
+            android:tint="@color/white"
             app:backgroundTint="@color/colorPrimary"
             app:fabSize="mini" />
 
@@ -65,10 +65,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@color/colorPrimary"
-            android:foregroundTint="@color/white"
             android:src="@drawable/funmode_icon"
             app:backgroundTint="@color/colorPrimary"
-            app:fabSize="mini" />
+            app:fabSize="mini"
+            android:tint="@color/white"/>
 
     </LinearLayout>
 

@@ -43,7 +43,7 @@ public class ObjectPlacer extends Fragment implements View.OnClickListener{
             // Inflate the layout for this fragment
             View view  = inflater.inflate(R.layout.fragment_object_placer, container, false);
 
-//            initData();
+            initData();
 //         initRecyleView();
             //Fetchting the instance of arFragment ID in XML
             arFragment = (ArFragment) getFragmentManager().findFragmentById(R.id.arFragment);
@@ -67,18 +67,18 @@ public class ObjectPlacer extends Fragment implements View.OnClickListener{
 
     }
 
-//    private void initData() {
-//        objectCycle = new ArrayList<>();
-//
-//        objectCycle.add(R.drawable.burger);
-//        objectCycle.add(R.drawable.oldcar);
-//        objectCycle.add(R.drawable.ufo);
-//        objectCycle.add(R.drawable.coffee);
-//        objectCycle.add(R.drawable.burger);
-//        objectCycle.add(R.drawable.oldcar);
-//        objectCycle.add(R.drawable.ufo);
-//
-//    }
+    private void initData() {
+        objectCycle = new ArrayList<>();
+
+        objectCycle.add(R.drawable.burger);
+        objectCycle.add(R.drawable.oldcar);
+        objectCycle.add(R.drawable.ufo);
+        objectCycle.add(R.drawable.coffee);
+        objectCycle.add(R.drawable.burger);
+        objectCycle.add(R.drawable.oldcar);
+        objectCycle.add(R.drawable.ufo);
+
+    }
 
 
 
