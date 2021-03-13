@@ -1,55 +1,28 @@
 package com.example.augmentedreality.Modules.Doodler;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 
 import com.example.augmentedreality.R;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-public class Doodler extends AppCompatActivity implements View.OnClickListener {
+public class Doodler extends Fragment implements View.OnClickListener {
 
-    Fragment menu;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doodler);
-        getSupportActionBar().hide();
-
-//        menuHandler();
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view =  inflater.inflate(R.layout.fragment_doodler, container, false);
+        return view;
     }
-
-//    private void menuHandler() {
-//        menu.getView().findViewById(R.id.doodler).setOnClickListener(this);
-//        menu.getView().findViewById(R.id.objectPlacer).setOnClickListener(this);
-//        menu.getView().findViewById(R.id.faceFilter).setOnClickListener(this);
-//        menu.getView().findViewById(R.id.funMode).setOnClickListener(this);
-//    }
-
-
 
     @Override
     public void onClick(View v) {
-//
-//        switch (v.getId()) {
-//            case R.id.menuButton:
-//                break;
-//            case R.id.doodler:
-//                break;
-//            case R.id.objectPlacer:
-//                if (true) {
-//                    startActivity(new Intent(Doodler.this, ObjectPlacer.class));
-//                }
-//                break;
-//            case R.id.faceFilter:
-//                startActivity(new Intent(Doodler.this, FaceFilter.class));
-//                break;
-//            case R.id.funMode:
-//                startActivity(new Intent(Doodler.this, FunMode.class));
-//                break;
-//        }
 
     }
 }
