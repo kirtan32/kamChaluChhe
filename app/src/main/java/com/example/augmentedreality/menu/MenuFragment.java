@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.augmentedreality.Modules.Doodler.Doodler;
 import com.example.augmentedreality.Modules.FaceFilter;
-import com.example.augmentedreality.Modules.FunMode;
+import com.example.augmentedreality.Modules.FunMode.FunMode;
 import com.example.augmentedreality.Modules.ObjectPlacer.ObjectPlacer;
 import com.example.augmentedreality.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

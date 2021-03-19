@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:background="@color/colorPrimary"
-            app:tint="@color/colorPrimary"
+            app:backgroundTint="@color/colorPrimary"
+            app:tint="@color/white"
             android:src="@drawable/menu_icon" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

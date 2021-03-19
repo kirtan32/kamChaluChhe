@@ -55,3 +55,9 @@ sceneform.asset('sampledata/coffee.obj',
         'sampledata/coffee.sfa',
         'src/main/assets/coffee')
 
+
+
+sceneform.asset('sampledata/balloon.fbx',
+        'default',
+        'sampledata/balloon.sfa',
+        'src/main/assets/balloon')
