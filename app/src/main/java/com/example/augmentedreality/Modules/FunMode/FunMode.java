@@ -7,7 +7,6 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Display;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,8 +15,8 @@ import com.example.augmentedreality.R;
 import com.google.ar.sceneform.Camera;
 import com.google.ar.sceneform.Node;
 import com.google.ar.sceneform.Scene;
-
 import com.google.ar.sceneform.collision.Ray;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.MaterialFactory;
 import com.google.ar.sceneform.rendering.ModelRenderable;
@@ -32,10 +31,10 @@ public class FunMode extends AppCompatActivity {
     private Scene scene;
     private Camera camera;
     private ModelRenderable bulletRenderable;
-    private boolean timerFlag = true;
-    private  int objectLeft = 15;
+    private boolean timerStarted = false;
+    private  int enemyLeft = 10;
     private Point point;
-    private TextView objectLeftTxt;
+    private TextView enemyLeftTxt;
     private SoundPool soundPool;
     private int sound;
 
@@ -44,6 +43,7 @@ public class FunMode extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_mode);
         getSupportActionBar().hide();
+
         Display display = getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getRealSize(point);
@@ -53,22 +53,22 @@ public class FunMode extends AppCompatActivity {
         scene = arFragment.getArSceneView().getScene();
         camera = scene.getCamera();
 
-        objectLeftTxt = findViewById(R.id.ufoCount);
+        enemyLeftTxt = findViewById(R.id.count);
         loadSoundPool();
+        addEnemyToScene();
+        buildBulletModel();
+
         Button shoot = findViewById(R.id.btnShoot);
+
         shoot.setOnClickListener( view -> {
-                if(timerFlag)
+                if(!timerStarted)
                 {
                     startTimer();
-                    timerFlag = false;
+                    timerStarted = true;
                 }
-                
-                
                 shoot();
         });
 
-        addUFOToScene();
-        buildBulletModel();
     }
 
     private void loadSoundPool() {
@@ -84,7 +84,6 @@ public class FunMode extends AppCompatActivity {
                 .build();
 
         sound = soundPool.load(this,R.raw.assets_blop_sound,1);
-
     }
 
     private void shoot() {
@@ -95,18 +94,17 @@ public class FunMode extends AppCompatActivity {
         scene.addChild(node);
 
         new Thread( () -> {
-            for(int i =0 ; i < 200 ; i++){
+            for(int i =0 ; i < 80 ; i++){
                 int finalI = i;
                 runOnUiThread( () -> {
                     Vector3 vector3 = ray.getPoint( finalI * 0.1f);
                     node.setWorldPosition(vector3);
 
                     Node nodeInContact = scene.overlapTest(node);
-                    if(node != null){
-                        objectLeft--;
-                        objectLeftTxt.setText("Balloons Left : "+objectLeft);
+                    if(nodeInContact != null){
+                        enemyLeft--;
+                        enemyLeftTxt.setText("Balloons Left : " +enemyLeft);
                         scene.removeChild(nodeInContact);
-
                         soundPool.play(sound, 1f,1f,1,0,1f);
                     }
                 });
@@ -127,7 +125,7 @@ public class FunMode extends AppCompatActivity {
         new Thread( () -> {
             int second = 0;
 
-            while(objectLeft > 0){
+            while(enemyLeft > 0){
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -147,42 +145,39 @@ public class FunMode extends AppCompatActivity {
 
 
     private void buildBulletModel() {
-        Texture
-                .builder()
+        Texture.builder()
                 .setSource(this,R.drawable.texture)
                 .build()
                 .thenAccept(texture -> {
-                    MaterialFactory
-                            .makeOpaqueWithTexture(this,texture)
+                    MaterialFactory.makeOpaqueWithTexture(this,texture)
                             .thenAccept(material -> {
                               bulletRenderable = ShapeFactory
-                                        .makeSphere(0.02f,
-                                                new Vector3(0f,0f,0f),
-                                                material);
+                                        .makeSphere(0.015f, new Vector3(0f,0f,0f),material);
                             });
                 });
     }
 
-    private void addUFOToScene() {
+    private void addEnemyToScene() {
 
         ModelRenderable
                 .builder()
                 .setSource(this, Uri.parse("balloon.sfb"))
                 .build()
                 .thenAccept( renderable -> {
-                    Node node = new Node();
-                    node.setRenderable(renderable);
-                    scene.addChild(node);
+                    for(int i = 0 ; i < 10 ; i++) {
+                        Node node = new Node();
+                        node.setRenderable(renderable);
 
-                    Random random = new Random();
-                    int x = random.nextInt(13);
-                    int y = random.nextInt(13);
-                    int z = random.nextInt(30);
+                        Random random = new Random();
+                        int x = random.nextInt(13);
+                        int y = random.nextInt(13);
+                        int z = random.nextInt(30);
+                        z = -z;
 
-                    z = -z;
-
-                    node.setWorldPosition(new Vector3((float)x, (float)y/10f,(float)z));
-
+                        node.setWorldPosition(new Vector3((float) x, (float) y / 10f, (float) z));
+                        node.setLocalRotation(Quaternion.axisAngle(new Vector3(0,1f,0),230));
+                        scene.addChild(node);
+                    }
                 });
     }
 
