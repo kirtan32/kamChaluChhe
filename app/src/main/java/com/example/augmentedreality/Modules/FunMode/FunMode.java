@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Display;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.augmentedreality.R;
 import com.google.ar.sceneform.Camera;
 import com.google.ar.sceneform.Node;
@@ -42,22 +41,32 @@ public class FunMode extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fun_mode);
+        //actionbar hide
         getSupportActionBar().hide();
 
+        //to get display size
         Display display = getWindowManager().getDefaultDisplay();
         point = new Point();
+
+        //end point of screen
         display.getRealSize(point);
 
+        //arFragment with hidden object detaction and hand icon
         customFragment arFragment = (customFragment) getSupportFragmentManager().findFragmentById(R.id.arFragment);
 
+        //to get camera scene
         scene = arFragment.getArSceneView().getScene();
         camera = scene.getCamera();
 
         enemyLeftTxt = findViewById(R.id.count);
-        loadSoundPool();
-        addEnemyToScene();
-        buildBulletModel();
 
+        //to load sound
+        loadSoundPool();
+        //adding enemy in the scene
+        addEnemyToScene();
+
+        //rendering bullet model
+        buildBulletModel();
         Button shoot = findViewById(R.id.btnShoot);
 
         shoot.setOnClickListener( view -> {
@@ -88,22 +97,25 @@ public class FunMode extends AppCompatActivity {
 
     private void shoot() {
 
+        //seting ray at center
         Ray ray = camera.screenPointToRay(point.x/2f, point.y/2f );
+
         Node node = new Node();
         node.setRenderable(bulletRenderable);
         scene.addChild(node);
 
         new Thread( () -> {
-            for(int i =0 ; i < 80 ; i++){
+            for(int i =0 ; i < 100 ; i++){
                 int finalI = i;
+                //background work
                 runOnUiThread( () -> {
                     Vector3 vector3 = ray.getPoint( finalI * 0.1f);
                     node.setWorldPosition(vector3);
-
+                    //to check bullet is hit to enemy or not
                     Node nodeInContact = scene.overlapTest(node);
                     if(nodeInContact != null){
                         enemyLeft--;
-                        enemyLeftTxt.setText("Balloons Left : " +enemyLeft);
+                        enemyLeftTxt.setText("UFO Left : " +enemyLeft);
                         scene.removeChild(nodeInContact);
                         soundPool.play(sound, 1f,1f,1,0,1f);
                     }
@@ -142,8 +154,6 @@ public class FunMode extends AppCompatActivity {
 
     }
 
-
-
     private void buildBulletModel() {
         Texture.builder()
                 .setSource(this,R.drawable.texture)
@@ -161,7 +171,7 @@ public class FunMode extends AppCompatActivity {
 
         ModelRenderable
                 .builder()
-                .setSource(this, Uri.parse("balloon.sfb"))
+                .setSource(this, Uri.parse("flying sacuer.sfb"))
                 .build()
                 .thenAccept( renderable -> {
                     for(int i = 0 ; i < 10 ; i++) {
@@ -169,9 +179,9 @@ public class FunMode extends AppCompatActivity {
                         node.setRenderable(renderable);
 
                         Random random = new Random();
-                        int x = random.nextInt(13);
-                        int y = random.nextInt(13);
-                        int z = random.nextInt(30);
+                        int x = random.nextInt(10);
+                        int y = random.nextInt(10);
+                        int z = random.nextInt(26);
                         z = -z;
 
                         node.setWorldPosition(new Vector3((float) x, (float) y / 10f, (float) z));

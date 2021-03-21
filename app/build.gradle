@@ -61,3 +61,8 @@ sceneform.asset('sampledata/balloon.fbx',
         'default',
         'sampledata/balloon.sfa',
         'src/main/assets/balloon')
+
+sceneform.asset('sampledata/flying sacuer.obj',
+        'default',
+        'sampledata/flying sacuer.sfa',
+        'src/main/assets/flying sacuer')

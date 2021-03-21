@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-
 import com.example.augmentedreality.R;
 import com.example.augmentedreality.RecycleViewAdapter;
 import com.google.ar.core.Anchor;
@@ -26,7 +24,6 @@ public class ObjectPlacer extends AppCompatActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private ArrayList<Integer> objectCycle;
     private LinearLayoutManager linearLayoutManager;
-//    private Button btnC, btnChair, btn3;
     private String s = "coffee.sfb";
 
 
@@ -35,15 +32,6 @@ public class ObjectPlacer extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_object_placer);
         getSupportActionBar().hide();
-
-//        btnC = findViewById(R.id.btnC);
-//        btnChair = findViewById(R.id.btnChair);
-//        btn3 = findViewById(R.id.btn3);
-//
-//
-//        btnC.setOnClickListener(this);
-//        btnChair.setOnClickListener(this);
-//        btn3.setOnClickListener(this);
 
         initData();
         initRecyleView();
@@ -66,7 +54,6 @@ public class ObjectPlacer extends AppCompatActivity implements View.OnClickListe
     private void initData() {
 
         objectCycle = new ArrayList<>();
-
         objectCycle.add(R.drawable.burger);
         objectCycle.add(R.drawable.oldcar);
         objectCycle.add(R.drawable.ufo);
@@ -78,7 +65,6 @@ public class ObjectPlacer extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initRecyleView() {
-
         recyclerView = findViewById(R.id.recyclerIcon);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -86,16 +72,12 @@ public class ObjectPlacer extends AppCompatActivity implements View.OnClickListe
         RecycleViewAdapter adapter = new RecycleViewAdapter(objectCycle);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
-
     }
 
     //Method to Render Model On Real World
         private void addModelToScene(Anchor anchor, ModelRenderable modelRenderable) {
-
         AnchorNode anchorNode = new AnchorNode(anchor);
         TransformableNode transformableNode = new TransformableNode((arFragment.getTransformationSystem()));
-//        transformableNode.setWorldScale(new Vector3(0.005f,0.005f,0.005f));
         transformableNode.setLocalScale(new Vector3(15f,15f,15f));
         transformableNode.setParent(anchorNode);
         transformableNode.setRenderable(modelRenderable);
@@ -105,18 +87,6 @@ public class ObjectPlacer extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
-//        switch (v.getId()){
-//            case R.id.btnC:
-//                s = "coffee.sfb";
-//                break;
-//            case R.id.btnChair:
-//                s = "chairobj.sfb";
-//                break;
-//            case R.id.btn3:
-//                s = "earth_ball.sfb";
-//                break;
-//        }
 
     }
 }
