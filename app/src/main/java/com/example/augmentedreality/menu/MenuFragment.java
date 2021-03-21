@@ -1,8 +1,6 @@
 package com.example.augmentedreality.menu;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.FaceDetector;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -15,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.augmentedreality.Modules.Doodler.Doodler;
 import com.example.augmentedreality.Modules.FaceFilter;
-import com.example.augmentedreality.Modules.FunMode;
+import com.example.augmentedreality.Modules.FunMode.FunMode;
 import com.example.augmentedreality.Modules.ObjectPlacer.ObjectPlacer;
 import com.example.augmentedreality.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -98,10 +96,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         Fragment activeFragment;
         transaction  = getFragmentManager().beginTransaction();
 
-        Log.i("getActivityMENU", ">>" + getActivity());
-        Log.d("getActivityMENU", ">>" + getActivity());
-
-
         switch (v.getId()) {
             case R.id.menuButton:
                 menuChange();
@@ -110,22 +104,26 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                 activeFragment = new Doodler();
                 transaction.replace(R.id.host, activeFragment);
                 transaction.commit();
+                menuChange();
                 break;
 
             case R.id.objectPlacer:
                 activeFragment = new ObjectPlacer();
                 transaction.replace(R.id.host, activeFragment);
                 transaction.commit();
+                menuChange();
                 break;
             case R.id.faceFilter:
                 activeFragment = new FaceFilter();
                 transaction.replace(R.id.host, activeFragment);
                 transaction.commit();
+                menuChange();
                 break;
             case R.id.funMode:
                 activeFragment = new FunMode();
                 transaction.replace(R.id.host, activeFragment);
                 transaction.commit();
+                menuChange();
                 break;
         }
 
