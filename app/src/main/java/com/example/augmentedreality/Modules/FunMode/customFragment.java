@@ -16,6 +16,7 @@ public class customFragment extends ArFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FrameLayout frameLayout = (FrameLayout)super.onCreateView(inflater, container, savedInstanceState);
 
+        //hiding plane detection dots and hands icon
         getPlaneDiscoveryController().hide();
         getPlaneDiscoveryController().setInstructionView(null);
         return frameLayout;

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.graphics.Point;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
@@ -14,7 +13,6 @@ import android.net.Uri;
 import android.view.Display;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.augmentedreality.R;
 import com.google.ar.sceneform.Camera;
 import com.google.ar.sceneform.Node;
@@ -41,7 +39,9 @@ public class FunMode extends Fragment {
     private TextView enemyLeftTxt;
     private SoundPool soundPool;
     private int sound;
+    private int soundBlast;
     private View view;
+    private  customFragment arFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,11 +57,12 @@ public class FunMode extends Fragment {
         display.getRealSize(point);
 
         //arFragment with hidden object detaction and hand icon
-        customFragment arFragment = (customFragment) getChildFragmentManager().findFragmentById(R.id.arFragment);
+        arFragment = (customFragment) getChildFragmentManager().findFragmentById(R.id.arFragment);
 
         //to get camera scene
         scene = arFragment.getArSceneView().getScene();
         camera = scene.getCamera();
+
 
         enemyLeftTxt = view.findViewById(R.id.count);
 
@@ -83,10 +84,12 @@ public class FunMode extends Fragment {
             shoot();
         });
 
+
         return view;
     }
 
-    private void loadSoundPool() {
+    //setting sound pool
+    private void loadSoundPool(){
 
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -99,31 +102,38 @@ public class FunMode extends Fragment {
                 .build();
 
         sound = soundPool.load(getActivity(),R.raw.gunsound,1);
+        soundBlast = soundPool.load(getActivity(),R.raw.blast,1);
     }
 
-    private void shoot() {
 
-        //seting ray at center
+    //on shoot
+    private void shoot() {
+        //setting ray at center
         Ray ray = camera.screenPointToRay(point.x/2f, point.y/2f );
 
         Node node = new Node();
         node.setRenderable(bulletRenderable);
         scene.addChild(node);
-
+        //playing sound on shooting!
+        soundPool.play(sound, 0.8f,0.8f,1,0,1f);
         new Thread( () -> {
-            for(int i =0 ; i < 100 ; i++){
-                int finalI = i;
+            for(int i =0 ; i < 200 ; i++){
+                int dist = i;
                 //background work
                 getActivity().runOnUiThread( () -> {
-                    Vector3 vector3 = ray.getPoint( finalI * 0.1f);
+                    Vector3 vector3 = ray.getPoint( dist * 0.07f);
                     node.setWorldPosition(vector3);
                     //to check bullet is hit to enemy or not
                     Node nodeInContact = scene.overlapTest(node);
                     if(nodeInContact != null){
                         enemyLeft--;
                         enemyLeftTxt.setText("UFO Left : " +enemyLeft);
+                        scene.removeChild(node);
                         scene.removeChild(nodeInContact);
-                        soundPool.play(sound, 1f,1f,1,0,1f);
+                        //sound when enemy is killed
+                        soundPool.play(soundBlast, 0.3f,0.3f,1,0,1f);
+
+
                     }
                 });
                 try {
@@ -168,7 +178,7 @@ public class FunMode extends Fragment {
                     MaterialFactory.makeOpaqueWithTexture(getActivity(),texture)
                             .thenAccept(material -> {
                                 bulletRenderable = ShapeFactory
-                                        .makeSphere(0.015f, new Vector3(0f,0f,0f),material);
+                                        .makeSphere(0.013f, new Vector3(0f,0f,0f),material);
                             });
                 });
     }
@@ -177,11 +187,12 @@ public class FunMode extends Fragment {
 
         ModelRenderable
                 .builder()
-                .setSource(getActivity(), Uri.parse("flying sacuer.sfb"))
+                .setSource(getActivity(), Uri.parse("flyingsacuer.sfb"))
                 .build()
                 .thenAccept( renderable -> {
                     for(int i = 0 ; i < 10 ; i++) {
                         Node node = new Node();
+                        //random node setting
                         node.setRenderable(renderable);
 
                         Random random = new Random();

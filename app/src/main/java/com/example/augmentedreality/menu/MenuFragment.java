@@ -1,12 +1,9 @@
 package com.example.augmentedreality.menu;
 
-import android.content.Context;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,18 +23,19 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
     Boolean isMenuOpen = false;
     View view;
     FragmentTransaction transaction;
+    Doodler doodler;
+    ObjectPlacer objectPlacer;
+    FaceFilter faceFilter;
+    FunMode funMode;
 
-    public Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         //inflate layout in a view variable so can use attributes of view
         view =  inflater.inflate(R.layout.fragment_menu, container, false);
-
         //menu initialization
         initMenu();
-
         return view;
     }
 
@@ -51,8 +49,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         funModeBtn = view.findViewById(R.id.funMode);
 
 
-
-
+        //animation for menu icons
         doodlerBtn.setAlpha(0f);
         objectPlacerBtn.setAlpha(0f);
         faceFilterBtn.setAlpha(0f);
@@ -71,9 +68,11 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         funModeBtn.setOnClickListener(this);
     }
 
+
+    //open - close menu animations
     private void menuChange(){
 
-
+        //to open menu with animations
         if(!isMenuOpen){
             doodlerBtn.animate().translationY(0f).alpha(1f).setDuration(200).start();
             objectPlacerBtn.animate().translationY(0f).alpha(1f).setDuration(200).start();
@@ -81,6 +80,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
             funModeBtn.animate().translationY(0f).alpha(1f).setDuration(200).start();
             menuBtn.setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.close));
         }
+        //to close menu with animations
         else{
             doodlerBtn.animate().translationY(translationY).alpha(0f).setDuration(200).start();
             objectPlacerBtn.animate().translationY(translationY).alpha(0f).setDuration(200).start();
@@ -88,12 +88,16 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
             funModeBtn.animate().translationY(translationY).alpha(0f).setDuration(200).start();
             menuBtn.setImageDrawable(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.menu_icon));
         }
+
+
         isMenuOpen = !isMenuOpen;
     }
+
+
+
     @Override
     public void onClick(View v) {
 
-        Fragment activeFragment;
         transaction  = getFragmentManager().beginTransaction();
 
         switch (v.getId()) {
@@ -101,27 +105,31 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                 menuChange();
                 break;
             case R.id.doodler:
-                activeFragment = new Doodler();
-                transaction.replace(R.id.host, activeFragment);
+//                if(doodler == null)
+                    doodler = new Doodler();
+                transaction.replace(R.id.host, doodler);
                 transaction.commit();
                 menuChange();
                 break;
 
             case R.id.objectPlacer:
-                activeFragment = new ObjectPlacer();
-                transaction.replace(R.id.host, activeFragment);
+//                if(objectPlacer == null)
+                    objectPlacer = new ObjectPlacer();
+                transaction.replace(R.id.host, objectPlacer);
                 transaction.commit();
                 menuChange();
                 break;
             case R.id.faceFilter:
-                activeFragment = new FaceFilter();
-                transaction.replace(R.id.host, activeFragment);
+//                if(faceFilter == null)
+                    faceFilter = new FaceFilter();
+                transaction.replace(R.id.host, faceFilter);
                 transaction.commit();
                 menuChange();
                 break;
             case R.id.funMode:
-                activeFragment = new FunMode();
-                transaction.replace(R.id.host, activeFragment);
+//                if(funMode == null)
+                    funMode = new FunMode();
+                transaction.replace(R.id.host, funMode);
                 transaction.commit();
                 menuChange();
                 break;

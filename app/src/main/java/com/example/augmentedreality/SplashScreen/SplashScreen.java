@@ -15,7 +15,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-
+        //splash screen for 2sec
         Thread thread = new Thread(){
             public void run(){
                 try{
@@ -25,6 +25,7 @@ public class SplashScreen extends AppCompatActivity {
 
                 }
                 finally {
+                    //starting main activity after 2 second
                     startActivity(new Intent(SplashScreen.this, MainActivity.class));
                     finish();
                 }
